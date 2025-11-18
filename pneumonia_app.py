@@ -1,4 +1,8 @@
 import streamlit as st
+
+# MUST be the first Streamlit command
+st.set_page_config(page_title="Pneumonia Detector", page_icon="🩺", layout="wide")
+
 import torch
 import torch.nn as nn
 from torchvision import transforms, models
@@ -8,11 +12,13 @@ import numpy as np
 # -----------------------------
 # Load the Trained Model
 # -----------------------------
+
 @st.cache_resource
 def load_model():
     model = models.resnet50(pretrained=False)
     model.fc = nn.Linear(2048, 2)  # 2 classes: NORMAL, PNEUMONIA
-    model.load_state_dict(torch.load("pneumonia_model_resnet50.pth", map_location=torch.device("cpu")))
+    state = torch.load("pneumonia_model_resnet50.pth", map_location=torch.device("cpu"))
+    model.load_state_dict(state)
     model.eval()
     return model
 
@@ -44,7 +50,6 @@ def predict(image):
 # -----------------------------
 # Streamlit UI
 # -----------------------------
-st.set_page_config(page_title="Pneumonia Detector", page_icon="🩺", layout="wide")
 
 st.title("🩺 Pneumonia Detection from Chest X-Ray")
 st.markdown("""
