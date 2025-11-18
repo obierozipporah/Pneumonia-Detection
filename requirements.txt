@@ -1,6 +1,8 @@
 streamlit
-torch==2.2.1
-torchvision==0.17.1
-Pillow
+torch==2.2.1+cpu
+torchvision==0.17.1+cpu
 numpy
+Pillow
+--extra-index-url https://download.pytorch.org/whl/cpu
+
 
